@@ -1,0 +1,36 @@
+import { useState } from "react";
+import CurrentUserDetailOverlay from "./CurrentUserDetailOverlay";
+import UserDetailOverlay from "./UserDetailOverlay";
+import { CheckValidHttpUrl } from "../constant/CheckValidHttpUrl";
+
+const UserInfo = ({data, DisconnectWS, ChangeAvatarImage})=>{
+
+    const [isUserInfoCardOpen, SetUserInfoCardOpen] = useState(false);
+    const imageAvartar = !data?.profileImagePath ? "./img/no-avartar.jpg" : CheckValidHttpUrl(data?.profileImagePath) ? data?.profileImagePath : `${process.env.REACT_APP_BASEURL}${data?.profileImagePath}`
+
+    return(
+        <>
+            {isUserInfoCardOpen && <UserDetailOverlay 
+                openState={SetUserInfoCardOpen}
+                DisconnectWS={DisconnectWS}
+                friendId={data.userId}
+                ChangeAvatarImage={ChangeAvatarImage}
+            />}
+            <div className="items-center p-2 m-1 box-content h-12 bg-transparent hover:bg-white rounded-3xl flex flex-row cursor-pointer"
+                onClick={()=>{
+                    SetUserInfoCardOpen(!isUserInfoCardOpen)
+                }}
+            >
+                <img className="w-12 rounded-xl aspect-square border-2 border-slate-300" src={imageAvartar} alt="avartar" />
+                <h3 className="grow text-xl font-bold opacity-70 pl-3">{`${data?.firstName} ${data?.lastName}`}</h3>
+                <div className="w-5 h-5 p-3 rounded-full bg-cyan-400 box-content">
+                    <svg className="w-5 h-5 mr-3 mx-auto opacity-70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                    </svg>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default UserInfo;

@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+    .twolinesetting {
+        display: -webkit-box;
+        -webkit-box-orient:vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+}
